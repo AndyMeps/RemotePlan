@@ -1,5 +1,9 @@
 import * as React from "react";
-import { HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } from "@microsoft/signalr";
+import {
+  HubConnection,
+  HubConnectionBuilder,
+  LogLevel,
+} from "@microsoft/signalr";
 
 type RoomSignalRFunctions = {
   onRoomLoaded: (room: Room) => void;
@@ -9,43 +13,53 @@ type RoomSignalRFunctions = {
   onAllVoted: (room: Room) => void;
   onPlayerInitialsSet: (player: Player) => void;
   onNewHandStarted: () => void;
-}
+};
 
-const useRoomSignalR = (roomId: string | undefined, functions: RoomSignalRFunctions, deps?: React.DependencyList) => {
-  console.log('useRoomSignalR function run');
+const useRoomSignalR = (
+  roomId: string | undefined,
+  functions: RoomSignalRFunctions,
+  deps?: React.DependencyList
+) => {
+  console.log("useRoomSignalR function run");
   const [connection] = React.useState<HubConnection>(
     new HubConnectionBuilder()
       .withUrl("/PlanHub")
       .configureLogging(LogLevel.Information)
       .build()
   );
-  const { onRoomLoaded, onPlayerJoined, onPlayerLeft, onPlayerVoted, onAllVoted, onNewHandStarted, onPlayerInitialsSet } = functions;
+  const { onRoomLoaded } = functions;
 
   React.useEffect(() => {
     if (connection != null) {
-      console.log('rebinding signalr functions');
-      connection.off('PlayerJoined');
+      const {
+        onPlayerJoined,
+        onPlayerLeft,
+        onPlayerVoted,
+        onAllVoted,
+        onNewHandStarted,
+        onPlayerInitialsSet,
+      } = functions;
+
+      console.log("rebinding signalr functions");
+      connection.off("PlayerJoined");
       connection.on("PlayerJoined", onPlayerJoined);
-      connection.off('PlayerLeft');
+      connection.off("PlayerLeft");
       connection.on("PlayerLeft", onPlayerLeft);
-      connection.off('PlayerVoted');
+      connection.off("PlayerVoted");
       connection.on("PlayerVoted", onPlayerVoted);
-      connection.off('AllVoted');
+      connection.off("AllVoted");
       connection.on("AllVoted", onAllVoted);
-      connection.off('NewHand');
+      connection.off("NewHand");
       connection.on("NewHand", onNewHandStarted);
-      connection.off('PlayerInitialsSet');
+      connection.off("PlayerInitialsSet");
       connection.on("PlayerInitialsSet", onPlayerInitialsSet);
     }
-
-    return () => {
-      connection.stop();
-    };
   }, deps);
 
   const start = async () => {
-    if (connection == null || roomId == null)
-      return;
+    console.info('Connecting to SignalR...');
+    
+    if (connection == null || roomId == null) return;
 
     try {
       // connection.onclose(async () => {
@@ -59,7 +73,7 @@ const useRoomSignalR = (roomId: string | undefined, functions: RoomSignalRFuncti
       const result = await connection.invoke<Room>(
         "JoinRoom",
         roomId.toString(),
-        initials,
+        initials
       );
 
       onRoomLoaded(result);
@@ -78,22 +92,22 @@ const useRoomSignalR = (roomId: string | undefined, functions: RoomSignalRFuncti
 
   const startNewHand = () => {
     if (roomId === undefined) {
-      console.error('No room identifier.');
+      console.error("No room identifier.");
       return;
     }
 
     connection?.invoke("StartNewHand", roomId.toString());
-  }
+  };
 
   const setInitials = (initials: string) => {
     if (roomId === undefined) {
-      console.error('No room identifier.');
+      console.error("No room identifier.");
       return;
     }
 
     window.localStorage.setItem("initials", initials);
     connection?.invoke("SetInitials", roomId.toString(), initials);
-  }
+  };
 
   return { connection, castVote, startNewHand, setInitials };
 };
