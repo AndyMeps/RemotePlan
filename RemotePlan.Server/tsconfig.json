@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "outDir": "./wwwroot/",
+    "strict": true,
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "es6",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "paths": {
+      "@atoms": ["./src/atoms/index.ts"],
+      "@atoms/*": ["./src/atoms/*"],
+      "@molecules": ["./src/molecules/index.ts"],
+      "@molecules/*": ["./src/molecules/*"],
+      "@views": ["./src/Views/index.ts"],
+      "@views/*": ["./src/Views/*"],
+      "@hooks": ["./src/hooks/index.ts"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@contexts": ["./src/contexts/index.ts"],
+      "@contexts/*": ["./src/contexts/*"]
+    }
+  },
+}
