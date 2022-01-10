@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -12,6 +13,12 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'RemotePlan',
+      template: 'src/content/index.html',
+    }),
+  ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
@@ -23,7 +30,9 @@ module.exports = {
     }
   },
   output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'wwwroot/js'),
+    filename: 'js/main.js',
+    path: path.resolve(__dirname, 'wwwroot'),
+    clean: true,
+    publicPath: '/'
   },
 };

@@ -30,14 +30,12 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapHub<PlanHub>("/PlanHub");
+    endpoints.MapFallbackToFile("/index.html");
 });
 
 app.MapRoomEndpoints();
-
-app.MapRazorPages();
 
 app.Run();
