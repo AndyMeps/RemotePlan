@@ -35,8 +35,8 @@ const addOrUpdateVote =
 
 const PlayingSurface = styled.div`
   flex: 1;
-  background-color: #121212;
-  color: white;
+  background-color: ${props => props.theme.colors.background.one};
+  color: ${props => props.theme.colors.text.contrast};
   padding: 15px;
 `;
 

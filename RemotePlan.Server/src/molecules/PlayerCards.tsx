@@ -18,6 +18,7 @@ const CardOverlayWrapper = styled.div`
 `;
 
 const OwnerFlag = styled.div`
+  cursor: help;
   position: absolute;
   left: -10px;
   top: -10px;

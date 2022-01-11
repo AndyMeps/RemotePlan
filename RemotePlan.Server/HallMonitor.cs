@@ -188,6 +188,10 @@ namespace RemotePlan.Server
                 {
                     room.Players.TryRemove(playerId, out _);
                     room.Votes.TryRemove(playerId, out _);
+                    if (room.Owner?.PlayerId == playerId)
+                    {
+                        room.SetOwner(room.Players.FirstOrDefault().Value);
+                    }
                     removedFromRooms.Add(room.RoomId);
                 }
             }

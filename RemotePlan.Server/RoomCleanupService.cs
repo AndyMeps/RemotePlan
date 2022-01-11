@@ -10,7 +10,7 @@
         {
             _log = log;
             _hallMonitor = hallMonitor;
-            _cleanupInterval = TimeSpan.FromSeconds(5);
+            _cleanupInterval = TimeSpan.FromMinutes(15);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -20,7 +20,7 @@
             while (!stoppingToken.IsCancellationRequested)
             {
                 _log.LogDebug("[RoomCleanupService] Waiting {CleanupInterval} before running cleanup.", _cleanupInterval);
-                Thread.Sleep(_cleanupInterval);
+                await Task.Delay(_cleanupInterval, stoppingToken);
 
                 await _hallMonitor.CleanAsync();
             }

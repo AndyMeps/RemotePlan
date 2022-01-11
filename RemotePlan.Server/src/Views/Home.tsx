@@ -1,5 +1,19 @@
+import { Button, Input } from "@atoms";
 import * as React from "react";
 import { useNavigate } from "react-router";
+import styled from 'styled-components';
+
+const ErrorMessage = styled.div`
+  color: ${props => props.theme.colors.danger};
+`;
+
+const JoinLabel = styled.h1`
+  color: ${props => props.theme.colors.text.contrast};
+`;
+
+const RoomContainer = styled.div`
+  color: ${props => props.theme.colors.text.contrast};
+`;
 
 const Home = () => {
   const navigate = useNavigate();
@@ -37,15 +51,14 @@ const Home = () => {
 
   return (
     <div>
-      {err && <div>{err}</div>}
-      <div>
-        <h1>Join Room</h1>
-        <input type="number" value={roomId} onChange={handleRoomIdInputChange} />
-        <button onClick={handleJoinRoom} disabled={roomId.length === 0}>Join</button>
-      </div>
-      <div>
-        <button onClick={handleCreateRoom}>Create Room</button>
-      </div>
+      {err && <ErrorMessage>{err}</ErrorMessage>}
+      <RoomContainer>
+        <JoinLabel>Planning Rooms</JoinLabel>
+        <Input type="number" value={roomId} onChange={handleRoomIdInputChange} />
+        <Button onClick={handleJoinRoom} disabled={roomId.length === 0}>Join</Button>
+         or 
+        <Button onClick={handleCreateRoom}>Create Room</Button>
+      </RoomContainer>
     </div>
   )
 }
