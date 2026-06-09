@@ -16,7 +16,7 @@ const Actions = ({ onStartNewHand, onSetInitials, isOwner }: IProps) => {
   const [initials, setInitials] = React.useState<string>(window.localStorage.getItem("initials") || '');
   return (
     <Container id="actions">
-      {isOwner && <Button onClick={onStartNewHand} appearance="warn">Start New Hand</Button>}
+      {isOwner && <Button onClick={onStartNewHand} $appearance="warn">Start New Hand</Button>}
       <Input type="text" maxLength={3} onChange={(evt) => setInitials(evt.currentTarget.value)} value={initials} />
       <Button onClick={() => { onSetInitials(initials); }}>Set</Button>
     </Container>
