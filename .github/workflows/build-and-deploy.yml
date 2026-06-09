@@ -30,7 +30,6 @@ jobs:
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '10.0.x'
-        dotnet-quality: 'preview'
 
     - name: Publish .NET app
       run: dotnet publish RemotePlan.Server/RemotePlan.Server.csproj -c Release -o ./publish
