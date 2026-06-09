@@ -24,7 +24,7 @@ module.exports = {
     alias: {
       '@atoms': path.resolve(__dirname, 'src/atoms/'),
       '@molecules': path.resolve(__dirname, 'src/molecules/'),
-      '@views': path.resolve(__dirname, 'src/views/'),
+      '@views': path.resolve(__dirname, 'src/Views/'),
       '@hooks': path.resolve(__dirname, 'src/hooks/'),
       '@contexts': path.resolve(__dirname, 'src/contexts/')
     }
